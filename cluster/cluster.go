@@ -69,31 +69,14 @@ func Create(c *gin.Context) {
 
 	fullDomain := newCluster.Name+"."+newCluster.BaseDomain
 
-	// Check if cluster already exists
-	if cur, err := r.DB(dbName).Table(tableName).Filter(
-		r.Row.Field("full_domain").Eq(fullDomain)).Run(db.Session); err != nil {
+	if err := clusterExists(c, &newCluster, fullDomain); err != nil  {
 		log.Error(err)
-		defer cur.Close()
 		return
-	} else {
-		defer cur.Close()
-		var res []interface{}
-
-		cur.All(&res)
-		if(len(res) != 0) {
-			log.Error("This cluster already existes!")
-			c.JSON(http.StatusBadRequest, &types.ErrMsg{
-				Status: "error",
-				Message: "A cluster with the provided domainis already exists",
-			})
-			return
-		} else {
-			log.Info("Cool, a new cluster!")
-		}
 	}
 
 
 	cluster := &Cluster{
+		CustomerId:	newCluster.CustomerId,
 		Name:		newCluster.Name,
 		BaseDomain:	newCluster.BaseDomain,
 		FullDomain:	fullDomain,
@@ -144,4 +127,53 @@ func Delete(c *gin.Context) {
 
 	c.Status(http.StatusOK)
 	return
+}
+
+
+func clusterExists(c *gin.Context, nCluster *RestNewCluster, fullDomain string) error {
+	// Check if cluster already exists
+	if cur, err := r.DB(dbName).Table(tableName).Filter(
+		r.Row.Field("full_domain").Eq(fullDomain)).Run(db.Session); err != nil {
+		defer cur.Close()
+		return err
+	} else {
+		defer cur.Close()
+		var res []interface{}
+
+		cur.All(&res)
+		if(len(res) != 0) {
+			log.Error("This cluster already existes!")
+			c.JSON(http.StatusBadRequest, &types.ErrMsg{
+				Status: "error",
+				Message: "A cluster with the provided domainis already exists",
+			})
+			return nil
+		} else {
+			log.Info("Cool, a new cluster!")
+			return nil
+		}
+	}
+
+	// Check if user has already an associated cluster
+	if cur, err := r.DB(dbName).Table(tableName).Filter(
+		r.Row.Field("customer_id").Eq(nCluster.CustomerId)).Run(db.Session); err != nil {
+		defer cur.Close()
+		return err
+	} else {
+		defer cur.Close()
+		var res []interface{}
+
+		cur.All(&res)
+		if(len(res) != 0) {
+			log.Error("This has already an associated cluster")
+			c.JSON(http.StatusBadRequest, &types.ErrMsg{
+				Status: "error",
+				Message: "This user is already owner of a cluster",
+			})
+			return nil
+		} else {
+			log.Info("Cool, a new cluster!")
+			return nil
+		}
+	}
 }

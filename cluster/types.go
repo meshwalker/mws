@@ -30,7 +30,7 @@ type HealthCheckConfirmMsg struct {
 }
 
 type RestNewCluster struct {
-	UserId		string	`json:"user_id"`
+	CustomerId	string	`json:"customer_id"`
 	Name		string	`json:"name" gorethink:"name"`
 	BaseDomain	string	`json:"base_domain" gorethink:"base_domain"`
 }

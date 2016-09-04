@@ -1,0 +1,9 @@
+package: meshwalker.com/mws
+import:
+- package: github.com/Sirupsen/logrus
+- package: github.com/gin-gonic/gin
+- package: gopkg.in/dancannon/gorethink.v2
+- package: github.com/square/go-jose
+- package: github.com/satori/go.uuid
+- package: "github.com/patrickmn/go-cache"
+- package: "github.com/cloudflare/cloudflare-go"

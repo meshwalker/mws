@@ -1,5 +1,5 @@
 package info
-
+/*
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -7,7 +7,7 @@ import (
 )
 
 func Info(c *gin.Context) {
-	action := c.Param("action")
+	action := c.Param("domain")
 	url := c.Request.URL.Host
 
 	log.Info("Received Info request because of failure")
@@ -18,4 +18,4 @@ func Info(c *gin.Context) {
 		"URL": url,
 		"Message": "The meshwalker you tried to access is currently not available",
 	})
-}
+}*/

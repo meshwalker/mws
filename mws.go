@@ -6,7 +6,6 @@ import (
 	db "meshwalker.com/mws/pkg/database"
 	"meshwalker.com/mws/customer"
 	"meshwalker.com/mws/cluster"
-	"meshwalker.com/mws/info"
 )
 
 func main() {
@@ -36,7 +35,6 @@ func main() {
 		customerRoutes.DELETE("/:id", customer.Delete)
 	}
 
-	router.Any("/*action", info.Info)
 
 	// Cluster health check (ddns)
 	router.GET("getmyip", cluster.GetMyIP)

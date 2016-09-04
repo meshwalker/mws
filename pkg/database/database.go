@@ -31,7 +31,7 @@ func InitDb() {
 	log.Info("Rethink_Host: ", os.Getenv(RETHINKDB_PORT))
 
 
-	url := rhost+":"+rport)
+	url := rhost+":"+rport
 	log.Info("Rethinkdb address: ",url)
 
 	dbSession, err := r.Connect(r.ConnectOpts{

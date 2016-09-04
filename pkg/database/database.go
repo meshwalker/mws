@@ -19,7 +19,7 @@ var Session *r.Session
 
 func InitDb() {
 	log.Info("Rethink_Host: ", RETHINKDB_PORT)
-	url := "172.18.0.2"+os.Getenv(RETHINKDB_PORT)
+	url := "172.16.0.2"+os.Getenv(RETHINKDB_PORT)
 	if url == "" {
 		log.Fatal("Environment varialbe RETHINKDB_URL is empty!")
 		return

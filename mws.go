@@ -53,5 +53,5 @@ func main() {
 		clusterRoutes.DELETE("/:cid/nodes/:nid", cluster.RemoveNode)
 	}
 
-	router.Run(":8877")
+	router.Run(":8050")
 }
